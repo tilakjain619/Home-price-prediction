@@ -1,5 +1,7 @@
+const url = 'https://home-price-prediction-fmq7.onrender.com/';
+
 function onPageLoad() {
-    const url = '/api/get_location_names';
+    const url = url+'/api/get_location_names';
     const uiLocations = document.getElementById('uiLocations');
 
     fetch(url)
@@ -24,7 +26,7 @@ function onClickedEstimatePrice() {
     console.log("Selected Values:", sqft, bhk, bath, location);
 
     // const url = 'http://127.0.0.1:5000/predict_home_price';
-    const url = '/api/predict_home_price';
+    const url = url+'/api/predict_home_price';
     fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
