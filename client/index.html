@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bangalore Home Price Prediction</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./script.js" defer></script>
+</head>
+<body>
+    <div class="img"></div>
+    <form class="form">
+        <h2>Area (Square Feet)</h2>
+        <input type="text" id="uiSqft" class="floatLabel area" name="Squareft" value="1000">
+
+        <h2>BHK</h2>
+        <div id="bhk-options" class="switch-field"></div>
+
+        <h2>Bath</h2>
+        <div id="bath-options" class="switch-field"></div>
+
+        <h2>Location</h2>
+        <select id="uiLocations" class="location">
+            <option value="" disabled selected>Choose a Location</option>
+            <option>Electronic City</option>
+            <option>Rajaji Nagar</option>
+        </select>
+
+        <button class="submit" onclick="onClickedEstimatePrice()" type="button">Estimate Price</button>
+        <div id="uiEstimatedPrice" class="result">
+            Click above
+        </div>
+    </form>
+
+    <script>
+        function createRadioButtons(containerId, name, count, defaultChecked) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = [...Array(count)].map((_, i) => 
+                `<input type="radio" id="${name}-${i+1}" name="${name}" value="${i+1}" ${i+1 === defaultChecked ? 'checked' : ''} />
+                <label for="${name}-${i+1}">${i+1}</label>`
+            ).join('');
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            createRadioButtons("bhk-options", "uiBHK", 5, 2);
+            createRadioButtons("bath-options", "uiBathrooms", 5, 2);
+        });
+    </script>
+</body>
+</html>
