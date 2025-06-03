@@ -1,15 +1,15 @@
-const url = 'https://home-price-prediction-fmq7.onrender.com/';
+const baseUrl = 'https://home-price-prediction-fmq7.onrender.com'; // Define base URL separately
 
 function onPageLoad() {
-    const url = url+'/api/get_location_names';
+    const apiUrl = baseUrl + '/api/get_location_names';
     const uiLocations = document.getElementById('uiLocations');
 
-    fetch(url)
+    fetch(apiUrl)
     .then(response => response.json())
     .then(data => {
         if (data && data.locations) {
             data.locations.forEach(location => {
-                let opt = new Option(location);
+                let opt = new Option(location, location);
                 uiLocations.appendChild(opt);
             });
         }
@@ -23,11 +23,12 @@ function onClickedEstimatePrice() {
     const bath = document.querySelector('input[name="uiBathrooms"]:checked')?.value;
     const location = document.getElementById('uiLocations').value;
     const uiEstimatedPrice = document.getElementById('uiEstimatedPrice');
+
     console.log("Selected Values:", sqft, bhk, bath, location);
 
-    // const url = 'http://127.0.0.1:5000/predict_home_price';
-    const url = url+'/api/predict_home_price';
-    fetch(url, {
+    const apiUrl = baseUrl + '/api/predict_home_price';
+
+    fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -36,14 +37,15 @@ function onClickedEstimatePrice() {
             bhk: bhk,
             bath: bath
         })
-    }).then(response => response.json())
+    })
+    .then(response => response.json())
     .then(data => {
-    console.log("Response Data:", data);
-    if (data.estimated_price) {
-        uiEstimatedPrice.innerHTML = data.estimated_price.toString() + ' Lakhs';
-    } else {
-        console.log("Invalid response format");
-    }
+        console.log("Response Data:", data);
+        if (data.estimated_price) {
+            uiEstimatedPrice.innerHTML = data.estimated_price.toString() + ' Lakhs';
+        } else {
+            console.log("Invalid response format");
+        }
     })
     .catch(error => console.log("Error predicting price", error));
 }
